@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="ctg-i-s" foregroundRGB="255,255,255" description="" id="{UMLID=_rr7KsLs-Ed-YP6PCNhC6sg,JavaID=ro.ulbsibiu.acaps.ctg}" metadata="uml2-1.0" initialized="true" tag="10" key="323030373036323920435447">
+  <children xsi:type="editmodel:ClassEditModel" name="CommunicationTaskGraph" location="50,50" size="207,65" timstampe="4" stereotype="" id="{UMLID=_3V8h0Ls-Ed-YP6PCNhC6sg,JavaID=ro.ulbsibiu.acaps.ctg/CommunicationTaskGraph}" runTimeClassModel="CommunicationTaskGraph()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel">
+      <children xsi:type="editmodel:MethodEditModel" name="CommunicationTaskGraph" size="164,16" id="{UMLID=_3WwaILs-Ed-YP6PCNhC6sg,JavaID=ro.ulbsibiu.acaps.ctg/CommunicationTaskGraph#CommunicationTaskGraph()}"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showMethodsParameterTypes="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showMethods="true" showAttributes="true" showLiterals="true" showAttributeParameterType="true" showAttributeJavaStereotype="true" showMethodJavaStereotype="true" showAttributeDefaultValue="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" interactive="false" level="4" showScope="InPackage" properties="wireOptions=0"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="14,14" gridOrigin="56,28" rulerUnit="cm">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showMethodsParameterTypes="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" shortPackageNameFormat="true" showClassStereotype="true" showPackageStereotype="true" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showInterfaceStereotype="true" showMethods="true" showAttributes="true" showLiterlas="true" showInnerEntity="true" showAttributeParameterType="true" showAttributeJavaStereotype="true" showMethodJavaStereotype="true" showAttributeDefaultValue="true"/>
+</editmodel:ClassDiagramEditModel>
