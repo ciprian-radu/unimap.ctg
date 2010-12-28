@@ -2,7 +2,6 @@ package ro.ulbsibiu.acaps.ctg;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -11,7 +10,6 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-import org.jgrapht.graph.EdgeSetFactory;
 
 import ro.ulbsibiu.acaps.ctg.xml.ctg.CommunicatingTaskType;
 import ro.ulbsibiu.acaps.ctg.xml.ctg.CommunicationType;
@@ -94,7 +92,8 @@ public class CommunicationTaskGraph extends
 		@SuppressWarnings("unchecked")
 		TaskType task = ((JAXBElement<TaskType>) unmarshaller
 				.unmarshal(sourceTaskFile)).getValue();
-		TaskVertex vertex = new TaskVertex(task.getID(), task.getName());
+		TaskVertex vertex = new TaskVertex(task.getID());
+		vertex.setName(task.getName());
 		boolean success = addVertex(vertex);
 		if (logger.isDebugEnabled()) {
 			if (success) {

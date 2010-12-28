@@ -10,6 +10,9 @@ import org.jgrapht.graph.DefaultWeightedEdge;
  */
 public class CommunicationEdge extends DefaultWeightedEdge {
 
+	/** auto generated serial version UID */
+	private static final long serialVersionUID = -1828082141276503376L;
+	
 	private double volume;
 
 	public CommunicationEdge() {

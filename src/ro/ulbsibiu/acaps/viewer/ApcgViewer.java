@@ -3,8 +3,10 @@ package ro.ulbsibiu.acaps.viewer;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 
+import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.xml.bind.JAXBException;
 
@@ -13,50 +15,58 @@ import org.jgraph.JGraph;
 import org.jgraph.graph.VertexView;
 import org.jgrapht.graph.AbstractGraph;
 
+import ro.ulbsibiu.acaps.apcg.ApplicationCharacterizationGraph;
 import ro.ulbsibiu.acaps.ctg.CommunicationEdge;
-import ro.ulbsibiu.acaps.ctg.CommunicationTaskGraph;
-import ro.ulbsibiu.acaps.ctg.TaskVertex;
 
 import com.jgraph.components.labels.MultiLineVertexRenderer;
 
 /**
- * Communication Task Graph viewer
+ * APplication Characterization Graph (APCG) viewer
  * 
  * @author cipi
  * 
  */
-public class CtgViewer {
+public class ApcgViewer {
 
 	/** auto generated serial version UID */
-	private static final long serialVersionUID = -984434070656763839L;
+	private static final long serialVersionUID = -6804689760104726630L;
 
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger.getLogger(CtgViewer.class);
+	private static final Logger logger = Logger.getLogger(ApcgViewer.class);
 
-	private CtgJGraphModelAdapter jgAdapter;
+	private ApcgJGraphModelAdapter jgAdapter;
 
-	private AbstractGraph<TaskVertex, CommunicationEdge> graph;
+	private AbstractGraph<Object, CommunicationEdge> graph;
+
+	/** the APCG XMl file */
+	private File apcgXmlFile;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param graph
+	 * @param apcgXmlFile
 	 */
-	public CtgViewer(AbstractGraph<TaskVertex, CommunicationEdge> graph) {
+	public ApcgViewer(AbstractGraph<Object, CommunicationEdge> graph,
+			File apcgXmlFile) {
 		logger.assertLog(graph != null, null);
+		logger.assertLog(apcgXmlFile != null, null);
 
 		this.graph = graph;
+		this.apcgXmlFile = apcgXmlFile;
 	}
 
 	private JGraphLayoutPanel initialize() throws JAXBException {
 		// create a visualization using JGraph, via an adapter
-		jgAdapter = new CtgJGraphModelAdapter(graph);
+		jgAdapter = new ApcgJGraphModelAdapter(graph, apcgXmlFile);
 		JGraph jgraph = new JGraph(jgAdapter);
 
 		// Overrides the global vertex renderer
 		VertexView.renderer = new MultiLineVertexRenderer();
+		// we hide the icon that indicates grouping (we create core - tasks groups)
+		jgraph.putClientProperty(MultiLineVertexRenderer.CLIENTPROPERTY_SHOWFOLDINGICONS, Boolean.FALSE);
 
 		JGraphLayoutPanel layoutPanel = new JGraphLayoutPanel(jgraph);
 
@@ -65,20 +75,22 @@ public class CtgViewer {
 
 	public static void main(String[] args) throws FileNotFoundException,
 			JAXBException {
-		if (args == null || args.length == 0) {
-			System.err.println("usage:   java CtgViewer.class {CTG XML}");
+		if (args == null || args.length < 2) {
 			System.err
-					.println("example: java CtgViewer.class ../CTG-XML/xml/VOPD/ctg-0/ctg-0.xml");
+					.println("usage:   java CtgViewer.class {CTG XML} {APCG XML}");
+			System.err
+					.println("example: java CtgViewer.class ../CTG-XML/xml/VOPD/ctg-0/ctg-0.xml ../CTG-XML/xml/VOPD/ctg-0/apcg-0_m.xml");
 		} else {
-			CommunicationTaskGraph ctgGraph = new CommunicationTaskGraph(
+			ApplicationCharacterizationGraph apcgGraph = new ApplicationCharacterizationGraph(args[1],
 					args[0]);
-			CtgViewer app = new CtgViewer(ctgGraph);
+			ApcgViewer app = new ApcgViewer(apcgGraph, new File(args[1]));
 
 			// Switch off D3D because of Sun XOR painting bug
 			// See http://www.jgraph.com/forum/viewtopic.php?t=4066
 			System.setProperty("sun.java2d.d3d", "false");
-			JFrame frame = new JFrame("Communication Task Graph Viewer ("
-					+ args[0] + ")");
+			JFrame frame = new JFrame(
+					"Application Characterization Graph Viewer (" + args[0]
+							+ " | " + args[1] + ")");
 			final JGraphLayoutPanel layoutPanel = app.initialize();
 			frame.getContentPane().add(layoutPanel);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -89,7 +101,7 @@ public class CtgViewer {
 					layoutPanel.reset();
 					super.componentResized(e);
 				}
-				
+
 			});
 			frame.pack();
 			frame.setSize(800, 600);
