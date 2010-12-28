@@ -1,6 +1,8 @@
 package ro.ulbsibiu.acaps.viewer;
 
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +28,7 @@ import ro.ulbsibiu.acaps.noc.NocGraph;
 import ro.ulbsibiu.acaps.noc.xml.node.NodeType;
 
 import com.jgraph.components.labels.MultiLineVertexRenderer;
+import com.jgraph.layout.simple.SimpleGridLayout;
 
 /**
  * @author cipi
@@ -64,7 +67,22 @@ public class NocApplicationMappingViewer extends JApplet {
 
 		// Overrides the global vertex renderer
 		VertexView.renderer = new MultiLineVertexRenderer();
-		JGraphLayoutPanel layoutPanel = new JGraphLayoutPanel(jgraph);
+		// we hide the icon that indicates grouping (we create NoC node - core groups)
+		jgraph.putClientProperty(MultiLineVertexRenderer.CLIENTPROPERTY_SHOWFOLDINGICONS, Boolean.FALSE);
+		
+		JGraphLayoutPanel layoutPanel = new JGraphLayoutPanel(jgraph) {
+
+			@Override
+			public void reset() {
+				SimpleGridLayout simpleGridLayout = new SimpleGridLayout();
+				simpleGridLayout.setActOnUnconnectedVerticesOnly(false);
+				simpleGridLayout.setOrdered(true);
+				execute(simpleGridLayout);
+				graph.clearSelection();
+				JGraphLayoutMorphingManager.fitViewport(graph);
+			}
+			
+		};
 
 		return layoutPanel;
 	}
@@ -91,7 +109,7 @@ public class NocApplicationMappingViewer extends JApplet {
 	 * @throws JAXBException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException, JAXBException {
-		if (args == null || args.length == 0) {
+		if (args == null || args.length < 2) {
 			System.err
 					.println("usage:   java NocApplicationMappingViewer.class {NoC topology} {mapping XML}");
 			System.err
@@ -105,10 +123,20 @@ public class NocApplicationMappingViewer extends JApplet {
 			// See http://www.jgraph.com/forum/viewtopic.php?t=4066
 			System.setProperty("sun.java2d.d3d", "false");
 			JFrame frame = new JFrame(
-					"Network-on-Chip Application Mapping Viewer");
-			JGraphLayoutPanel layoutPanel = app.initialize();
+					"Network-on-Chip Application Mapping Viewer (" + args[0]
+							+ " | " + args[1] + ")");
+			final JGraphLayoutPanel layoutPanel = app.initialize();
 			frame.getContentPane().add(layoutPanel);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.addComponentListener(new ComponentAdapter() {
+
+				@Override
+				public void componentResized(ComponentEvent e) {
+					layoutPanel.reset();
+					super.componentResized(e);
+				}
+				
+			});
 			frame.pack();
 			frame.setSize(800, 600);
 			frame.setVisible(true);

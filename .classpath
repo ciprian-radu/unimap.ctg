@@ -3,11 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/jgraph.jar" sourcepath="/jgraph"/>
-	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar" sourcepath="/jgrapht">
-		<attributes>
-			<attribute name="javadoc_location" value="http://www.jgrapht.org/javadoc/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/TGGraphLayout.jar"/>
 	<classpathentry kind="lib" path="lib/xmlunit1.0.jar"/>
@@ -15,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/l2fprod-common-all.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CTG-XML"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NoC-XML"/>
+	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

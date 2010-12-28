@@ -204,10 +204,7 @@ public class JGraphLayoutPanel extends JPanel {
 	 * Resets the graph to a circular layout.
 	 */
 	public void reset() {
-		SimpleGridLayout simpleGridLayout = new SimpleGridLayout();
-		simpleGridLayout.setActOnUnconnectedVerticesOnly(false);
-		simpleGridLayout.setOrdered(true);
-		execute(simpleGridLayout);
+		execute(new JGraphHierarchicalLayout());
 		graph.clearSelection();
 		JGraphLayoutMorphingManager.fitViewport(graph);
 	}

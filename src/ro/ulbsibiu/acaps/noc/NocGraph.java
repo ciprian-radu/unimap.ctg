@@ -3,7 +3,6 @@ package ro.ulbsibiu.acaps.noc;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
-import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -11,17 +10,21 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
-import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import ro.ulbsibiu.acaps.noc.xml.link.LinkType;
 import ro.ulbsibiu.acaps.noc.xml.node.NodeType;
 
 /**
+ * The Network-on-Chip topology graph
+ * 
  * @author cipi
  * 
  */
 public class NocGraph extends SimpleWeightedGraph<Object, Object> {
+
+	/** auto generated serial version UID */
+	private static final long serialVersionUID = -8077128461035688989L;
 
 	/**
 	 * Logger for this class
@@ -34,12 +37,14 @@ public class NocGraph extends SimpleWeightedGraph<Object, Object> {
 	private int[] nodes;
 
 	/**
+	 * Constructor
+	 * 
 	 * @param nocTopologyFilePath
 	 *            the path to the file that contains the NoC topology (cannot be
 	 *            empty)
 	 */
 	public NocGraph(String nocTopologyFilePath) {
-		super(LinkType.class);
+		super(Object.class);
 		logger.assertLog(
 				nocTopologyFilePath != null && !nocTopologyFilePath.isEmpty(),
 				null);
