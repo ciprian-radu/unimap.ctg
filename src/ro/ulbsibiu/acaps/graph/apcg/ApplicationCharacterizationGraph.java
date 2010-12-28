@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.apcg;
+package ro.ulbsibiu.acaps.graph.apcg;
 
 import java.io.File;
 import java.util.List;
@@ -11,14 +11,14 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.log4j.Logger;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
-import ro.ulbsibiu.acaps.ctg.CommunicationEdge;
-import ro.ulbsibiu.acaps.ctg.TaskVertex;
 import ro.ulbsibiu.acaps.ctg.xml.apcg.ApcgType;
 import ro.ulbsibiu.acaps.ctg.xml.apcg.CoreType;
 import ro.ulbsibiu.acaps.ctg.xml.apcg.TaskType;
 import ro.ulbsibiu.acaps.ctg.xml.ctg.CommunicatingTaskType;
 import ro.ulbsibiu.acaps.ctg.xml.ctg.CommunicationType;
 import ro.ulbsibiu.acaps.ctg.xml.ctg.CtgType;
+import ro.ulbsibiu.acaps.graph.ctg.CommunicationEdge;
+import ro.ulbsibiu.acaps.graph.ctg.TaskVertex;
 
 /**
  * {@link DefaultDirectedWeightedGraph} that represents the APplication

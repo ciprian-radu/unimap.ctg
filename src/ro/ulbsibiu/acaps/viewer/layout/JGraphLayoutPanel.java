@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.viewer;
+package ro.ulbsibiu.acaps.viewer.layout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;

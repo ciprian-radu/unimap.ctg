@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.ctg;
+package ro.ulbsibiu.acaps.graph.ctg;
 
 /**
  * Models the vertex from a {@link CommunicationTaskGraph}. The vertex is

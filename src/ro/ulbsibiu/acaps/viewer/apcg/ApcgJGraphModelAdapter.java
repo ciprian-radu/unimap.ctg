@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.viewer;
+package ro.ulbsibiu.acaps.viewer.apcg;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -26,14 +26,14 @@ import org.jgrapht.Graph;
 import org.jgrapht.ext.JGraphModelAdapter;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-import ro.ulbsibiu.acaps.ctg.CommunicationEdge;
-import ro.ulbsibiu.acaps.ctg.CommunicationTaskGraph;
-import ro.ulbsibiu.acaps.ctg.TaskVertex;
 import ro.ulbsibiu.acaps.ctg.xml.apcg.ApcgType;
 import ro.ulbsibiu.acaps.ctg.xml.apcg.CoreType;
 import ro.ulbsibiu.acaps.ctg.xml.apcg.TaskType;
 import ro.ulbsibiu.acaps.ctg.xml.mapping.MapType;
 import ro.ulbsibiu.acaps.ctg.xml.mapping.MappingType;
+import ro.ulbsibiu.acaps.graph.ctg.CommunicationEdge;
+import ro.ulbsibiu.acaps.graph.ctg.CommunicationTaskGraph;
+import ro.ulbsibiu.acaps.graph.ctg.TaskVertex;
 
 import com.jgraph.components.labels.CellConstants;
 import com.jgraph.components.labels.MultiLineVertexRenderer;

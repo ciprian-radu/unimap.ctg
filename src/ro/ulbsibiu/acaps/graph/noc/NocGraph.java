@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.noc;
+package ro.ulbsibiu.acaps.graph.noc;
 
 import java.io.File;
 import java.io.FileFilter;

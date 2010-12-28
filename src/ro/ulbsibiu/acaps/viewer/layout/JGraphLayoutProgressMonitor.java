@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.viewer;
+package ro.ulbsibiu.acaps.viewer.layout;
 /*
  * $Id: JGraphLayoutProgressMonitor.java,v 1.1 2009/09/25 15:17:49 david Exp $
  * Copyright (c) 2001-2005, Gaudenz Alder

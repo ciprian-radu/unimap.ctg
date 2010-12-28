@@ -1,4 +1,4 @@
-package ro.ulbsibiu.acaps.ctg;
+package ro.ulbsibiu.acaps.graph.ctg;
 
 import java.io.File;
 import java.util.List;
