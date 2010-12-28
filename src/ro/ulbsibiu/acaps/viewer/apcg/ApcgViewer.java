@@ -1,12 +1,10 @@
 package ro.ulbsibiu.acaps.viewer.apcg;
 
-import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.xml.bind.JAXBException;
 
@@ -59,7 +57,7 @@ public class ApcgViewer {
 		this.apcgXmlFile = apcgXmlFile;
 	}
 
-	private JGraphLayoutPanel initialize() throws JAXBException {
+	public JGraphLayoutPanel initialize() throws JAXBException {
 		// create a visualization using JGraph, via an adapter
 		jgAdapter = new ApcgJGraphModelAdapter(graph, apcgXmlFile);
 		JGraph jgraph = new JGraph(jgAdapter);

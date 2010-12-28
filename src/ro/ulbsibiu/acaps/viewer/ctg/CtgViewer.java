@@ -1,6 +1,5 @@
 package ro.ulbsibiu.acaps.viewer.ctg;
 
-import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.FileNotFoundException;
@@ -51,7 +50,7 @@ public class CtgViewer {
 		this.graph = graph;
 	}
 
-	private JGraphLayoutPanel initialize() throws JAXBException {
+	public JGraphLayoutPanel initialize() throws JAXBException {
 		// create a visualization using JGraph, via an adapter
 		jgAdapter = new CtgJGraphModelAdapter(graph);
 		JGraph jgraph = new JGraph(jgAdapter);

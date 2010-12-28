@@ -1,6 +1,5 @@
 package ro.ulbsibiu.acaps.viewer.noc;
 
-import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
@@ -51,7 +50,7 @@ public class NocViewer {
 		this.mappingXmlFilePath = mappingXmlFilePath;
 	}
 
-	private JGraphLayoutPanel initialize() throws JAXBException {
+	public JGraphLayoutPanel initialize() throws JAXBException {
 		// create a visualization using JGraph, via an adapter
 		jgAdapter = new NocJGraphModelAdapter(graph, new File(mappingXmlFilePath));
 		JGraph jgraph = new JGraph(jgAdapter);
