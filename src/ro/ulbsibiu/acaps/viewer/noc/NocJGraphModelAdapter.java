@@ -3,8 +3,11 @@ package ro.ulbsibiu.acaps.viewer.noc;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.RGBImageFilter;
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.xml.bind.JAXBContext;
@@ -50,10 +53,17 @@ public class NocJGraphModelAdapter extends JGraphModelAdapter<Object, Object> {
 		this.mappingXmlFile = mappingXmlFile;
 		logger.assertLog(mappingXmlFile != null, "Invalid mapping XML file!");
 
-		addCoresToNodes();
+		addCoresToNodes(jGraphTGraph);
 	}
 
-	private void addCoresToNodes() throws JAXBException {
+	private void addCoresToNodes(Graph<Object, Object> jGraphTGraph) throws JAXBException {
+		// place dummy cores (they will remain only if the node doesn't contain a core)
+		Set<Object> vertexSet = jGraphTGraph.vertexSet();
+		for (Iterator<Object> iterator = vertexSet.iterator(); iterator.hasNext();) {
+			Object vertex = iterator.next();
+			getVertexCell(vertex).add(new DefaultGraphCell());
+		}
+		
 		JAXBContext jaxbContext = JAXBContext
 				.newInstance("ro.ulbsibiu.acaps.ctg.xml.mapping");
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -65,9 +75,30 @@ public class NocJGraphModelAdapter extends JGraphModelAdapter<Object, Object> {
 		for (int i = 0; i < mapList.size(); i++) {
 			MapType mapType = mapList.get(i);
 			// add IP core to NoC node
+			DefaultGraphCell vertexCell = getVertexCell(mapType.getNode());
+			vertexCell.remove(1); // remove the dummy core
+			String apcgId = mapType.getApcg();
+			String ctgId = apcgId.substring(0, apcgId.lastIndexOf("_"));
 			DefaultGraphCell cell = new DefaultGraphCell(mapType.getCore());
-			getVertexCell(mapType.getNode()).add(cell);
+//			GraphConstants.setAutoSize(cell.getAttributes(), true);
+			GraphConstants.setForeground(cell.getAttributes(), getColor(ctgId));
+//			GraphConstants.setFont(cell.getAttributes(),
+//					GraphConstants.DEFAULTFONT.deriveFont(Font.BOLD, 6));
+			vertexCell.add(cell);
 		}
+	}
+	
+	private static Color getColor(String ctgId) {
+		Color[] colors = new Color[] { Color.BLACK, Color.RED,
+				Color.YELLOW, Color.BLUE, Color.PINK, Color.DARK_GRAY,
+				Color.MAGENTA, Color.GREEN, Color.ORANGE, Color.CYAN };
+		int id = 0;
+		try {
+			id = Integer.valueOf(ctgId);
+		} catch (NumberFormatException e) {
+			logger.warn(e);
+		}
+		return colors[id % colors.length];
 	}
 
 	@Override
