@@ -40,14 +40,18 @@ public class NocViewer {
 	private AbstractGraph<Object, Object> graph;
 
 	private String mappingXmlFilePath;
+	
+	/** the number of nodes placed horizontally */
+	private int hSize;
 
 	public NocViewer(AbstractGraph<Object, Object> graph,
-			String mappingXmlFilePath) {
+			String mappingXmlFilePath, int hSize) {
 		logger.assertLog(graph != null, null);
 		logger.assertLog(mappingXmlFilePath != null, null);
 
 		this.graph = graph;
 		this.mappingXmlFilePath = mappingXmlFilePath;
+		this.hSize = hSize;
 	}
 
 	public JGraphLayoutPanel initialize() throws JAXBException {
@@ -65,6 +69,7 @@ public class NocViewer {
 			@Override
 			public void reset() {
 				SimpleGridLayout simpleGridLayout = new SimpleGridLayout();
+				simpleGridLayout.setNumCellsPerRow(hSize);
 				simpleGridLayout.setActOnUnconnectedVerticesOnly(false);
 				simpleGridLayout.setOrdered(true);
 				execute(simpleGridLayout);
@@ -85,8 +90,16 @@ public class NocViewer {
 					.println("example: java NocApplicationMappingViewer.class ../NoC-XML/src/ro/ulbsibiu/acaps/noc/topology/mesh2D/4x4 ../CTG-XML/xml/VOPD/ctg-0/mapping-0_m_bb.xml");
 		} else {
 			NocGraph nocGraph = new NocGraph(args[0]);
-			NocViewer app = new NocViewer(
-					nocGraph, args[1]);
+			int hSize = 0;
+			try {
+				String hSizeAsString = args[0].substring(0, args[0].lastIndexOf("x"));
+				hSizeAsString = hSizeAsString.substring(hSizeAsString.lastIndexOf("/") + 1);
+				hSize = Integer.valueOf(hSizeAsString);
+			} catch (Exception e) {
+				logger.fatal("Could not determine hSize! Stopping...", e);
+				System.exit(0);
+			}
+			NocViewer app = new NocViewer(nocGraph, args[1], hSize);
 
 			// Switch off D3D because of Sun XOR painting bug
 			// See http://www.jgraph.com/forum/viewtopic.php?t=4066

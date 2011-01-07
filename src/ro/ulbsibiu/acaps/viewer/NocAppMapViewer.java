@@ -56,7 +56,16 @@ public class NocAppMapViewer {
 			ApcgViewer apcgViewer = new ApcgViewer(apcgGraph, new File(args[1]));
 
 			NocGraph nocGraph = new NocGraph(args[3]);
-			NocViewer nocViewer = new NocViewer(nocGraph, args[2]);
+			int hSize = 0;
+			try {
+				String hSizeAsString = args[3].substring(0, args[3].lastIndexOf("x"));
+				hSizeAsString = hSizeAsString.substring(hSizeAsString.lastIndexOf("/") + 1);
+				hSize = Integer.valueOf(hSizeAsString);
+			} catch (Exception e) {
+				logger.fatal("Could not determine hSize! Stopping...", e);
+				System.exit(0);
+			}
+			NocViewer nocViewer = new NocViewer(nocGraph, args[2], hSize);
 
 			// Switch off D3D because of Sun XOR painting bug
 			// See http://www.jgraph.com/forum/viewtopic.php?t=4066
