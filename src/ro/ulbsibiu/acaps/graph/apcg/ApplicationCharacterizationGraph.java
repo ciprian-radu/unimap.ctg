@@ -108,7 +108,13 @@ public class ApplicationCharacterizationGraph extends
 			// omit intra-core communications
 			if (!sourceCore.equals(destinationCore)) {
 				CommunicationEdge edge = addEdge(sourceCore, destinationCore);
-				edge.setWeight(volume);
+				if (edge == null) {
+					// there is already an edge from source core to destination core
+					edge = getEdge(sourceCore, destinationCore);
+					edge.setWeight(edge.getEdgeWeight() + volume);
+				} else {
+					edge.setWeight(volume);
+				}
 			}
 		}
 

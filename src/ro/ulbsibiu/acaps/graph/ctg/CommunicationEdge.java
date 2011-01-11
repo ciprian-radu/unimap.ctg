@@ -23,6 +23,10 @@ public class CommunicationEdge extends DefaultWeightedEdge {
 		this.volume = volume;
 	}
 
+	public double getEdgeWeight() {
+		return volume;
+	}
+	
 	@Override
 	protected double getWeight() {
 		return volume;
