@@ -58,7 +58,8 @@ public class CtgViewer {
 		// Overrides the global vertex renderer
 		VertexView.renderer = new MultiLineVertexRenderer();
 
-		JGraphLayoutPanel layoutPanel = new JGraphLayoutPanel(jgraph);
+		JGraphLayoutPanel layoutPanel = new JGraphLayoutPanel(jgraph,
+				((CommunicationTaskGraph) graph).getCtgName());
 
 		return layoutPanel;
 	}

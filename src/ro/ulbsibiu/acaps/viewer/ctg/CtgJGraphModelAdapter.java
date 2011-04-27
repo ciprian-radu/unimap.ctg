@@ -77,6 +77,7 @@ public class CtgJGraphModelAdapter extends JGraphModelAdapter<TaskVertex, Commun
 	public AttributeMap getDefaultVertexAttributes() {
 		AttributeMap map = new AttributeMap();
 
+		GraphConstants.setLabelEnabled(map, true);
 		// we set the bounds only to force the layout manager to use minimum
 		// size shapes
 		// this way the auto sizing mechanism will immediately generate the

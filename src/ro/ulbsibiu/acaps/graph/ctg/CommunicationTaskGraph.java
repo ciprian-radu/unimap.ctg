@@ -54,6 +54,14 @@ public class CommunicationTaskGraph extends
 			logger.error(e);
 		}
 	}
+	
+	public String getCtgName() {
+		String ctgName = ctgFilePath.substring(0, ctgFilePath.lastIndexOf("/"));
+		String second = ctgName.substring(ctgName.lastIndexOf("/") + 1);
+		String first = ctgName.substring(0, ctgName.lastIndexOf("/"));
+		first = first.substring(first.lastIndexOf("/") + 1);
+		return first + "." + second;
+	}
 
 	private void buildGraph() throws JAXBException {
 		File ctgFile = new File(ctgFilePath);

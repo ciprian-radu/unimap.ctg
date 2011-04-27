@@ -81,6 +81,7 @@ public class NocJGraphModelAdapter extends JGraphModelAdapter<Object, Object> {
 			String ctgId = apcgId.substring(0, apcgId.lastIndexOf("_"));
 			DefaultGraphCell cell = new DefaultGraphCell(mapType.getCore());
 //			GraphConstants.setAutoSize(cell.getAttributes(), true);
+			GraphConstants.setBackground(cell.getAttributes(), Color.LIGHT_GRAY);
 			GraphConstants.setForeground(cell.getAttributes(), getColor(ctgId));
 //			GraphConstants.setFont(cell.getAttributes(),
 //					GraphConstants.DEFAULTFONT.deriveFont(Font.BOLD, 6));
@@ -120,6 +121,7 @@ public class NocJGraphModelAdapter extends JGraphModelAdapter<Object, Object> {
 	public AttributeMap getDefaultVertexAttributes() {
 		AttributeMap map = new AttributeMap();
 
+		GraphConstants.setLabelEnabled(map, true);
 		// we set the bounds only to force the layout manager to use minimum
 		// size shapes
 		// this way the auto sizing mechanism will immediately generate the

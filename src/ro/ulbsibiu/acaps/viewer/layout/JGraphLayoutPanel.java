@@ -5,12 +5,19 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.security.acl.Owner;
 import java.util.Hashtable;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,19 +25,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphLayoutCache;
+
+import ro.ulbsibiu.acaps.viewer.svg.SvgGraphWriter;
 
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
-import com.jgraph.layout.graph.JGraphSimpleLayout;
 import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
 import com.jgraph.layout.organic.JGraphFastOrganicLayout;
 import com.jgraph.layout.organic.JGraphOrganicLayout;
 import com.jgraph.layout.organic.JGraphSelfOrganizingOrganicLayout;
-import com.jgraph.layout.simple.SimpleGridLayout;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import com.jgraph.layout.tree.JGraphRadialTreeLayout;
 import com.jgraph.layout.tree.JGraphTreeLayout;
@@ -48,14 +57,20 @@ public class JGraphLayoutPanel extends JPanel {
 
 	protected JCheckBox flushOriginCheckBox = new JCheckBox("Flush", true),
 			directedCheckBox = new JCheckBox("Directed", true);
+	
+	protected JButton exportButton = new JButton();
 
 	/**
 	 * Holds the morphing manager.
 	 */
 	protected JGraphLayoutMorphingManager morpher = new JGraphLayoutMorphingManager();
 
-	@SuppressWarnings("deprecation")
 	public JGraphLayoutPanel(JGraph graph) {
+		this (graph, null);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public JGraphLayoutPanel(JGraph graph, final String graphName) {
 		super(new BorderLayout());
 		setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		
@@ -67,6 +82,49 @@ public class JGraphLayoutPanel extends JPanel {
 		graph.setAntiAliased(true);
 		graph.setCloneable(true);
 
+		exportButton.setAction(new AbstractAction("Export") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser(new File("."));
+				jfc.setFileFilter(new FileFilter() {
+
+					@Override
+					public String getDescription() {
+						return "Scalable Vector Graphics";
+					}
+
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory() || f.getName().endsWith(".svg");
+					}
+				});
+				if (graphName != null && !graphName.isEmpty()) {
+					jfc.setSelectedFile(new File(graphName + ".svg"));
+				}
+				jfc.showSaveDialog(JGraphLayoutPanel.this);
+				File selectedFile = jfc.getSelectedFile();
+				int overwrite = JOptionPane.YES_OPTION;
+				if (selectedFile.exists()) {
+					overwrite = JOptionPane.showConfirmDialog(
+							JGraphLayoutPanel.this, "File " + selectedFile
+									+ " exists. Overwrite?");
+				}
+				if (overwrite == JOptionPane.YES_OPTION) {
+					try {
+						JGraphLayoutPanel.this.writeSVG(new FileOutputStream(
+								selectedFile));
+					} catch (FileNotFoundException exc) {
+						JOptionPane jop = new JOptionPane(exc
+								.getLocalizedMessage(),
+								JOptionPane.ERROR_MESSAGE);
+						jop.setVisible(true);
+						exc.printStackTrace();
+					}
+				}
+			}
+		});
+		
 		// Configures the taskpane
 		JTaskPaneGroup taskGroup = new JTaskPaneGroup();
 		taskGroup.setText("Layout");
@@ -180,6 +238,7 @@ public class JGraphLayoutPanel extends JPanel {
 
 		taskGroup = new JTaskPaneGroup();
 		taskGroup.setText("Options");
+		taskGroup.add(exportButton);
 		flushOriginCheckBox.setOpaque(false);
 		taskGroup.add(flushOriginCheckBox);
 		directedCheckBox.setOpaque(false);
@@ -200,6 +259,12 @@ public class JGraphLayoutPanel extends JPanel {
 		reset();
 	}
 
+	public void writeSVG(OutputStream out) {
+		SvgGraphWriter svgGraphWriter = new SvgGraphWriter();
+		GraphLayoutCache graphLayoutCache = graph.getGraphLayoutCache();
+		svgGraphWriter.write(out, null, graphLayoutCache, 0);
+	}
+	
 	/**
 	 * Resets the graph to a circular layout.
 	 */
